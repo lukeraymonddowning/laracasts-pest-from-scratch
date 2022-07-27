@@ -3,9 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Contact;
+use App\Rules\IsValidEmailAddress;
+use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
-use Illuminate\Support\Facades\Request;
 use Illuminate\Validation\Rule;
 use Inertia\Inertia;
 
@@ -53,7 +54,7 @@ class ContactsController extends Controller
                 'organization_id' => ['nullable', Rule::exists('organizations', 'id')->where(function ($query) {
                     $query->where('account_id', Auth::user()->account_id);
                 })],
-                'email' => ['nullable', 'max:50', 'email'],
+                'email' => ['nullable', 'max:50', new IsValidEmailAddress()],
                 'phone' => ['nullable', 'max:50'],
                 'address' => ['nullable', 'max:150'],
                 'city' => ['nullable', 'max:50'],
