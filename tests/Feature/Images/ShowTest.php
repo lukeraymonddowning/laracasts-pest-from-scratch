@@ -10,7 +10,12 @@ it('can show supported image formats and options', function ($path, $options) {
 
     expect($response->streamedContent())->not->toBeEmpty()->toBeString();
 })->with([
-    ['path' => 'example.png', ['w' => 40, 'h' => 40, 'fit' => 'crop']],
-    ['path' => 'example.jpg', ['w' => 40, 'h' => 40, 'fit' => 'crop']],
-    ['path' => 'example.webp', ['w' => 40, 'h' => 40, 'fit' => 'crop']],
+    'example.png',
+    'example.jpg',
+    'example.webp',
+])->with([
+    [['w' => 40, 'h' => 40, 'fit' => 'crop']],
+    [['w' => 50, 'h' => 50, 'fit' => 'crop']],
+    [['w' => 10, 'h' => 10, 'fit' => 'crop']],
+    [['w' => 0, 'h' => 0, 'fit' => 'crop']],
 ]);
