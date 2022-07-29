@@ -69,7 +69,7 @@ test('can view contacts', function () {
                 )
             )
         );
-});
+})->group('laracasts');
 
 test('can search for contacts', function () {
     $this->actingAs($this->user)
