@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Account;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class OrganizationFactory extends Factory
@@ -22,6 +23,7 @@ class OrganizationFactory extends Factory
             'region' => $this->faker->state,
             'country' => 'US',
             'postal_code' => $this->faker->postcode,
+            'account_id' => Account::factory(),
         ];
     }
 }
