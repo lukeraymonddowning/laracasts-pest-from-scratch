@@ -44,7 +44,8 @@ services:
   composer:
     build:
       context: ./
-      dockerfile: docker/composer.dockerfile
+      dockerfile: docker/php.dockerfile
+    entrypoint: ['php', '/usr/bin/composer']
     volumes:
       - ./:/var/www/html
     profiles:
