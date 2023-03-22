@@ -1,81 +1,10 @@
 # Ping CRM
 
-A demo application to illustrate how Inertia.js works.
+This is a fork of Ping CRM used for the Laracasts series "Pest From Scratch".
 
-![](https://raw.githubusercontent.com/inertiajs/pingcrm/master/screenshot.png)
+Each episode has a corresponding branch. You can check out the branch for the episode you're watching to see the code at that point in time.
+From episode 9 onwards, there is a docker-compose file that you can use to run the application. You can run `docker-compose up -d` to start the application.
 
-## Installation
+Use a command like `docker-compose exec -it php /bin/bash` to run commands in the app container.
 
-Clone the repo locally:
-
-```sh
-git clone https://github.com/inertiajs/pingcrm.git pingcrm
-cd pingcrm
-```
-
-Install PHP dependencies:
-
-```sh
-composer install
-```
-
-Install NPM dependencies:
-
-```sh
-npm ci
-```
-
-Build assets:
-
-```sh
-npm run dev
-```
-
-Setup configuration:
-
-```sh
-cp .env.example .env
-```
-
-Generate application key:
-
-```sh
-php artisan key:generate
-```
-
-Create an SQLite database. You can also use another database (MySQL, Postgres), simply update your configuration accordingly.
-
-```sh
-touch database/database.sqlite
-```
-
-Run database migrations:
-
-```sh
-php artisan migrate
-```
-
-Run database seeder:
-
-```sh
-php artisan db:seed
-```
-
-Run the dev server (the output will give the address):
-
-```sh
-php artisan serve
-```
-
-You're ready to go! Visit Ping CRM in your browser, and login with:
-
-- **Username:** johndoe@example.com
-- **Password:** secret
-
-## Running tests
-
-To run the Ping CRM tests, run:
-
-```
-phpunit
-```
+There is a `pest` bash alias configured, so you can just run `pest` to execute the test suite!
