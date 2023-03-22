@@ -1,0 +1,63 @@
+version: '3.8'
+
+services:
+  caddy:
+    image: caddy:2-alpine
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+    volumes:
+      - ./docker/Caddyfile:/etc/caddy/Caddyfile
+      - ./:/var/www/html
+      - ping_crm_caddy_data:/data
+    depends_on:
+      - php
+  php:
+    build:
+      context: ./
+      dockerfile: docker/php.dockerfile
+    volumes:
+      - ./:/var/www/html
+    ports:
+      - ":9000"
+  mysql:
+    image: mysql:8
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: yes
+      MYSQL_DATABASE: laravel
+    ports:
+      - "3306:3306"
+  artisan:
+    build:
+      context: ./
+      dockerfile: docker/php.dockerfile
+    volumes:
+      - ./:/var/www/html
+    depends_on:
+      - mysql
+    working_dir: /var/www/html
+    entrypoint: ['php', 'artisan']
+    profiles:
+      - commands
+  composer:
+    build:
+      context: ./
+      dockerfile: docker/composer.dockerfile
+    volumes:
+      - ./:/var/www/html
+    profiles:
+      - commands
+  npm:
+    build:
+      context: ./
+      dockerfile: docker/npm.dockerfile
+    volumes:
+      - ./:/var/www/html
+    profiles:
+      - commands
+
+volumes:
+  ping_crm_caddy_data:
+    external: true
