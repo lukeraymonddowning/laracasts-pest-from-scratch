@@ -6,15 +6,15 @@ use function Pest\Faker\faker;
 
 it('can store a contact', function () {
     login()->post('/contacts', [
-        'first_name' => faker()->firstName,
-        'last_name' => faker()->lastName,
-        'email' => faker()->email,
-        'phone' => faker()->e164PhoneNumber,
+        'first_name' => fake()->firstName,
+        'last_name' => fake()->lastName,
+        'email' => fake()->email,
+        'phone' => fake()->e164PhoneNumber,
         'address' => '1 Test Street',
         'city' => 'Testerfield',
         'region' => 'Derbyshire',
-        'country' => faker()->randomElement(['us', 'ca']),
-        'postal_code' => faker()->postcode,
+        'country' => fake()->randomElement(['us', 'ca']),
+        'postal_code' => fake()->postcode,
     ])
         ->assertRedirect('/contacts')
         ->assertSessionHas('success', 'Contact created.');
@@ -28,21 +28,21 @@ it('can store a contact', function () {
         ->country->toBeIn(['us', 'ca']);
 });
 
-it('requires the organization belong to the same account as the user', function ($organisationResolver, $errors = null) {
+it('requires the organization belong to the same account as the user', function (Closure $organisationResolver, $errors = null) {
     login();
 
     $organization = $organisationResolver(Auth::user());
 
     $response = $this->post('/contacts', [
-        'first_name' => faker()->firstName,
-        'last_name' => faker()->lastName,
-        'email' => faker()->email,
-        'phone' => faker()->e164PhoneNumber,
+        'first_name' => fake()->firstName,
+        'last_name' => fake()->lastName,
+        'email' => fake()->email,
+        'phone' => fake()->e164PhoneNumber,
         'address' => '1 Test Street',
         'city' => 'Testerfield',
         'region' => 'Derbyshire',
-        'country' => faker()->randomElement(['us', 'ca']),
-        'postal_code' => faker()->postcode,
+        'country' => fake()->randomElement(['us', 'ca']),
+        'postal_code' => fake()->postcode,
         'organization_id' => $organization->getKey(),
     ]);
 
@@ -52,6 +52,6 @@ it('requires the organization belong to the same account as the user', function 
         $response->assertValid();
     }
 })->with([
-    [fn () => fn ($user) => Organization::factory()->create(['account_id' => $user->account_id])],
-    [fn () => fn ($user) => Organization::factory()->create(), ['organization_id']],
+    [fn ($user) => Organization::factory()->create(['account_id' => $user->account_id])],
+    [fn ($user) => Organization::factory()->create(), ['organization_id']],
 ]);
