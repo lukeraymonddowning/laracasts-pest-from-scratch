@@ -12,6 +12,9 @@
 */
 
 use App\Models\User;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Testing\TestResponse;
+use Inertia\Testing\AssertableInertia;
 use PHPUnit\Framework\ExpectationFailedException;
 
 uses(Tests\TestCase::class)->in('Feature');
@@ -37,6 +40,14 @@ expect()->extend('toBePhoneNumber', function () {
     if (! is_numeric(Str::of($this->value)->after('+')->remove([' ', '-'])->__toString())) {
         throw new ExpectationFailedException('Phone numbers must be numeric.');
     }
+});
+
+expect()->intercept('toBe', Model::class, function ($value) {
+    expect($this->value->is($value))->toBeTrue(message: "Failed asserting that two models are the same.");
+});
+
+expect()->intercept('toContain', TestResponse::class, function (...$value) {
+    $this->value->assertInertia(fn (AssertableInertia $inertia) => $inertia->has(...$value));
 });
 
 /*
