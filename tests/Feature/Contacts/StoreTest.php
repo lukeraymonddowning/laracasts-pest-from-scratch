@@ -55,3 +55,5 @@ it('requires the organization belong to the same account as the user', function 
     [fn ($user) => Organization::factory()->create(['account_id' => $user->account_id])],
     [fn ($user) => Organization::factory()->create(), ['organization_id']],
 ]);
+
+
